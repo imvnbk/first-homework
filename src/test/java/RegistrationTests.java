@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.File;
 
 
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -128,17 +128,53 @@ public class RegistrationTests extends TestBase{
     }
 
     @Test
-    void emptyFieldsTest(){
-        WebDriver driver = new ChromeDriver();
+    void firstNameValidationTest() {
+
         open("/automation-practice-form");
 
-    // Нажимаем Submit без заполнения формы
+        // Нажимаем Submit без заполнения формы
         $("#submit").scrollTo().click();
 
-    // Проверяем, что модальное окно не появилось
-        boolean isModalDisplayed =
-                !driver.findElements(By.id("example-modal-sizes-title-lg")).isEmpty();
+        // Проверяем что поля валидируются
+        $("#userForm").shouldHave(cssClass("was-validated"));
+
+        // Проверяем, что поле FirstName подсветилось красным
+        $("#firstName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
+
+        // Проверяем, что модальное окно НЕ появилось
+        $("#example-modal-sizes-title-lg").shouldNotBe(visible);
     }
 
+    @Test
+    void lastNameValidationTest() {
+        open("/automation-practice-form");
 
+        // Нажимаем Submit без заполнения формы
+        $("#submit").scrollTo().click();
+
+        // Проверяем что поля валидируются
+        $("#userForm").shouldHave(cssClass("was-validated"));
+
+        // Проверяем, что поле LastName подсветилось красным
+        $("#lastName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
+
+        // Проверяем, что модальное окно НЕ появилось
+        $("#example-modal-sizes-title-lg").shouldNotBe(visible);    }
+
+    @Test
+    void userNumberValidationTest() {
+        open("/automation-practice-form");
+
+        // Нажимаем Submit без заполнения формы
+        $("#submit").scrollTo().click();
+
+        // Проверяем что поля валидируются
+        $("#userForm").shouldHave(cssClass("was-validated"));
+
+        // Проверяем, что поле Mobile Number подсветилось красным
+        $("#userNumber").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
+
+        // Проверяем, что модальное окно НЕ появилось
+        $("#example-modal-sizes-title-lg").shouldNotBe(visible);
+    }
 }
